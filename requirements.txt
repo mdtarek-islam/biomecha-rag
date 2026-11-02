@@ -1,0 +1,5 @@
+requests>=2.31,<3
+rank-bm25>=0.2.2,<0.3
+langchain-core>=0.3,<2
+langchain-huggingface>=0.1.2
+pinecone>=5

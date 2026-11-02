@@ -1,0 +1,34 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+.pytest_cache/
+.ruff_cache/
+dist/
+build/
+
+# Local secrets and generated artefacts
+.env
+bm25_params.json
+
+# Terraform
+terraform/.terraform/
+terraform/.terraform.lock.hcl
+terraform/*.tfstate
+terraform/*.tfstate.*
+terraform/*.tfvars
+terraform/crash.log
+
+# Local governance state
+.dump/
+.claude/ipc/
+.claude/agent-memory/
+.claude/quarantine/
+tests/harness/results/
+
+# Local secrets and measurements
+.env
+.env.*
+!.env.example
+docs/local/
