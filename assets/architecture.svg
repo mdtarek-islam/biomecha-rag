@@ -1,0 +1,151 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 960 560" width="960" height="560" role="img" aria-labelledby="t d">
+  <title id="t">biomecha-rag architecture</title>
+  <desc id="d">Two lanes. The ingest lane runs from the sample corpus through the loader and chunker into BGE dense and BM25 sparse encoders, then into a Pinecone hybrid index. The query lane runs from a client through API Gateway POST /ask to the Lambda handler, the hybrid retriever, the cross-encoder reranker and Mistral-7B, then returns an answer with citations. BGE, the reranker and Mistral-7B run on Hugging Face endpoints.</desc>
+  <style>
+    text { font-family: -apple-system, "Segoe UI", Helvetica, Arial, sans-serif; fill: #e6edf3; font-size: 14px; }
+    .sub { fill: #8b949e; font-size: 12px; }
+    .lane { fill: #8b949e; font-size: 16px; }
+    .node { fill: #161b22; stroke: #30363d; stroke-width: 1; }
+    .focus { stroke: #58a6ff; }
+    .out { stroke: #3fb950; }
+    .lanebox { fill: none; stroke: #30363d; stroke-opacity: 0.6; stroke-width: 1; }
+    .group { fill: none; stroke: #8b949e; stroke-width: 1; stroke-dasharray: 6 4; }
+    .base { fill: none; stroke: #58a6ff; stroke-opacity: 0.35; stroke-width: 1.5; }
+    .flow { fill: none; stroke: #58a6ff; stroke-width: 2; stroke-dasharray: 4 10; animation: flow 2.8s linear infinite; }
+    .ret { stroke: #3fb950; stroke-opacity: 0.35; }
+    .flow.ret { stroke-opacity: 1; }
+    .d1 { animation-delay: 0s; }
+    .d2 { animation-delay: 0.3s; }
+    .d3 { animation-delay: 0.6s; }
+    .d4 { animation-delay: 0.9s; }
+    .d5 { animation-delay: 1.2s; }
+    .d6 { animation-delay: 1.5s; }
+    .d7 { animation-delay: 1.8s; }
+    @keyframes flow { to { stroke-dashoffset: -28; } }
+    @media (prefers-reduced-motion: reduce) {
+      .flow { animation: none; }
+    }
+  </style>
+  <defs>
+    <marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+      <path d="M0 0 L10 5 L0 10 z" fill="#58a6ff"/>
+    </marker>
+    <marker id="ag" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+      <path d="M0 0 L10 5 L0 10 z" fill="#3fb950"/>
+    </marker>
+    <path id="c1" d="M164 144 H204"/>
+    <path id="c2" d="M344 144 H384"/>
+    <path id="c3" d="M524 144 H552 V100 H590"/>
+    <path id="c4" d="M552 144 V188 H590"/>
+    <path id="c5" d="M750 100 H775 V144 H800"/>
+    <path id="c6" d="M750 188 H775 V144"/>
+    <path id="q1" d="M204 336 H254"/>
+    <path id="q2" d="M434 336 H484"/>
+    <path id="q3" d="M664 336 H714"/>
+    <path id="q4" d="M804 360 V440"/>
+    <path id="q5" d="M714 464 H664"/>
+    <path id="q6" d="M484 464 H434"/>
+    <path id="q7" d="M254 464 H114 V360"/>
+  </defs>
+
+  <rect width="960" height="560" fill="#0d1117"/>
+
+  <rect class="lanebox" x="8" y="44" width="944" height="188" rx="8"/>
+  <text class="lane" x="24" y="66">Ingest lane</text>
+  <text class="sub" x="120" y="66">biomecha-rag ingest</text>
+
+  <rect class="group" x="580" y="68" width="180" height="64" rx="8"/>
+  <text class="sub" x="590" y="62">Hugging Face endpoint, TEI /embed</text>
+
+  <rect class="node" x="24" y="120" width="140" height="48" rx="6"/>
+  <text x="36" y="141">Sample corpus</text>
+  <text class="sub" x="36" y="159">data/sample_corpus</text>
+
+  <rect class="node" x="204" y="120" width="140" height="48" rx="6"/>
+  <text x="216" y="141">Loader</text>
+  <text class="sub" x="216" y="159">corpus/loader.py</text>
+
+  <rect class="node" x="384" y="120" width="140" height="48" rx="6"/>
+  <text x="396" y="141">Chunker</text>
+  <text class="sub" x="396" y="159">corpus/chunker.py</text>
+
+  <rect class="node" x="590" y="76" width="160" height="48" rx="6"/>
+  <text x="602" y="97">BGE dense</text>
+  <text class="sub" x="602" y="115">embeddings.py</text>
+
+  <rect class="node" x="590" y="164" width="160" height="48" rx="6"/>
+  <text x="602" y="185">BM25 sparse</text>
+  <text class="sub" x="602" y="203">sparse.py</text>
+
+  <rect class="node focus" x="800" y="120" width="136" height="48" rx="6"/>
+  <text x="812" y="141">Pinecone</text>
+  <text class="sub" x="812" y="159">hybrid index</text>
+
+  <rect class="lanebox" x="8" y="252" width="944" height="276" rx="8"/>
+  <text class="lane" x="24" y="276">Query lane</text>
+  <text class="sub" x="120" y="276">biomecha-rag ask, or POST /ask</text>
+
+  <rect class="group" x="470" y="404" width="440" height="96" rx="8"/>
+  <text class="sub" x="482" y="422">Hugging Face endpoints</text>
+
+  <rect class="node" x="24" y="312" width="180" height="48" rx="6"/>
+  <text x="36" y="333">Client</text>
+  <text class="sub" x="36" y="351">HTTP request</text>
+
+  <rect class="node" x="254" y="312" width="180" height="48" rx="6"/>
+  <text x="266" y="333">API Gateway</text>
+  <text class="sub" x="266" y="351">POST /ask, HTTP API v2</text>
+
+  <rect class="node" x="484" y="312" width="180" height="48" rx="6"/>
+  <text x="496" y="333">Lambda handler</text>
+  <text class="sub" x="496" y="351">handler.lambda_handler</text>
+
+  <rect class="node focus" x="714" y="312" width="180" height="48" rx="6"/>
+  <text x="726" y="333">Hybrid retriever</text>
+  <text class="sub" x="726" y="351">retriever.py, alpha weight</text>
+
+  <rect class="node" x="714" y="440" width="180" height="48" rx="6"/>
+  <text x="726" y="461">Cross-encoder rerank</text>
+  <text class="sub" x="726" y="479">reranker.py, TEI /rerank</text>
+
+  <rect class="node" x="484" y="440" width="180" height="48" rx="6"/>
+  <text x="496" y="461">Mistral-7B</text>
+  <text class="sub" x="496" y="479">generator.py, LangChain</text>
+
+  <rect class="node out" x="254" y="440" width="180" height="48" rx="6"/>
+  <text x="266" y="461">Answer + citations</text>
+  <text class="sub" x="266" y="479">pipeline.py, Answer</text>
+
+  <g>
+    <use xlink:href="#c1" class="base" marker-end="url(#ah)"/>
+    <use xlink:href="#c2" class="base" marker-end="url(#ah)"/>
+    <use xlink:href="#c3" class="base" marker-end="url(#ah)"/>
+    <use xlink:href="#c4" class="base" marker-end="url(#ah)"/>
+    <use xlink:href="#c5" class="base" marker-end="url(#ah)"/>
+    <use xlink:href="#c6" class="base"/>
+    <use xlink:href="#q1" class="base" marker-end="url(#ah)"/>
+    <use xlink:href="#q2" class="base" marker-end="url(#ah)"/>
+    <use xlink:href="#q3" class="base" marker-end="url(#ah)"/>
+    <use xlink:href="#q4" class="base" marker-end="url(#ah)"/>
+    <use xlink:href="#q5" class="base" marker-end="url(#ah)"/>
+    <use xlink:href="#q6" class="base" marker-end="url(#ag)"/>
+    <use xlink:href="#q7" class="base ret" marker-end="url(#ag)"/>
+  </g>
+  <g>
+    <use xlink:href="#c1" class="flow d1"/>
+    <use xlink:href="#c2" class="flow d2"/>
+    <use xlink:href="#c3" class="flow d3"/>
+    <use xlink:href="#c4" class="flow d3"/>
+    <use xlink:href="#c5" class="flow d4"/>
+    <use xlink:href="#c6" class="flow d4"/>
+    <use xlink:href="#q1" class="flow d1"/>
+    <use xlink:href="#q2" class="flow d2"/>
+    <use xlink:href="#q3" class="flow d3"/>
+    <use xlink:href="#q4" class="flow d4"/>
+    <use xlink:href="#q5" class="flow d5"/>
+    <use xlink:href="#q6" class="flow ret d6"/>
+    <use xlink:href="#q7" class="flow ret d7"/>
+  </g>
+
+  <text class="sub" x="24" y="548">Blue: request and index flow. Green: response. Dashed box: Hugging Face compute, outside Lambda.</text>
+</svg>

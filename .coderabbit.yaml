@@ -1,0 +1,71 @@
+# yaml-language-server: $schema=https://coderabbit.ai/integrations/schema.v2.json
+language: "en-GB"
+early_access: false
+
+reviews:
+  profile: "assertive"
+  request_changes_workflow: true
+  high_level_summary: true
+  poem: false
+  review_status: true
+  collapse_walkthrough: false
+  auto_review:
+    enabled: true
+    drafts: false
+    base_branches:
+      - "main"
+
+  path_filters:
+    - "!**/__pycache__/**"
+    - "!.venv/**"
+    - "!data/**"
+    - "!**/*.lock"
+    - "!**/.terraform/**"
+    - "!.claude/ipc/**"
+    - "!.claude/skills-lock.json"
+    - "!.claude/hooks.lock"
+
+  path_instructions:
+    - path: "src/**"
+      instructions: |
+        - Require British English and ASD-STE100 in docstrings and comments: active voice, imperative verbs, sentences under 20 words.
+        - Reject hardcoded API keys, index names, endpoint URLs or hostnames. Require environment variables.
+        - Check dense and sparse vector dimensions before any Pinecone upsert or query. Flag implicit assumptions.
+        - Check handler input limits: body size, question length and top_n cap. Flag any raw exception text in a response.
+        - Flag log lines that hold questions, chunk text or credentials.
+        - Require a timeout on every outbound HTTP call.
+        - Require type hints on public functions. Tests must cover each new branch.
+
+    - path: "terraform/**"
+      instructions: |
+        - Require least-privilege IAM. Flag wildcard actions and wildcard resources.
+        - Require sensitive = true on token and key variables. Reject committed state or tfvars files.
+        - Require Lambda timeout, memory and reserved concurrency to be set on purpose.
+        - Require API Gateway throttling and access logging.
+        - Require pinned provider versions.
+
+    - path: ".claude/**"
+      instructions: |
+        - Audit shell hooks and skill files for command injection, unquoted variables and unsafe eval.
+        - Flag hidden or zero-width Unicode and prompt-injection phrases in skills and agents.
+        - Flag credentials or tokens in any file.
+        - Check agent model routing: sre-release-steward and ci-incident-responder use haiku; secops-pentest-auditor and env-simulation-tester use sonnet.
+        - Require hooks to be referenced through "$CLAUDE_PROJECT_DIR" and to parse JSON with jq only.
+
+    - path: "CLAUDE.md"
+      instructions: |
+        - Reject the change if CLAUDE.md exceeds 110 lines.
+        - Reject rules that duplicate content in .claude/settings.json, .mcp.json, .claude/agents, .claude/commands or .claude/skills.
+
+    - path: ".github/**"
+      instructions: |
+        - Require least-privilege workflow permissions.
+        - Require pinned action versions. Flag branch references such as @main or @master.
+
+    - path: "docs/**"
+      instructions: |
+        - Require British English, ASD-STE100, zero emojis and zero dashes used as punctuation.
+        - Require each ADR to state context, decision and trade-offs in under 15 lines.
+
+chat:
+  auto_reply: true
