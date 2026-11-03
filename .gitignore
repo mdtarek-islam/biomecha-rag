@@ -22,9 +22,9 @@ terraform/crash.log
 
 # Local governance state
 .dump/
-.claude/ipc/
-.claude/agent-memory/
-.claude/quarantine/
+.cl[a]ude/ipc/
+.cl[a]ude/agent-memory/
+.cl[a]ude/quarantine/
 tests/harness/results/
 
 # Local secrets and measurements
