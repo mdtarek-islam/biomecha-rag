@@ -1,4 +1,4 @@
-<p align="center"><img src="./docs/cover-img.webp" alt="Biomecha RAG cover" width="100%"></p>
+<p align="center"><img src="./docs/readme-cover-img.webp" alt="Biomecha RAG cover" width="100%"></p>
 
 # Biomechanical Sports Analytics Hybrid RAG Engine
 
